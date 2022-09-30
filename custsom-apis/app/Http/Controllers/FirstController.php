@@ -104,6 +104,16 @@ class FirstController extends Controller
         ]);
     }
 
+    function solveNotation($prefixNotation) {
+        $notationArray = explode(" ", $prefixNotation);
+        $operator = $notationArray[0];
+        $resultString = calculateResult($operator, $notationArray);
+        return response()->json([
+            "response"=> "success",
+            "result"=> $resultString
+        ]);
+    }
+
 }
 
 function sortSubStringIntoArray($subString) {
@@ -121,4 +131,48 @@ function countDigits($myNum){
       $count++;
     }
     return $count;
-  }
+}
+
+function calculateResult ($operator, $operands) {
+    $value = $operands[1];
+    $result = "";
+    switch ($operator) {
+        case '+':
+            for ($i=2; $i < count($operands); $i++) { 
+                $value += $operands[$i];
+            }
+            $result = "Result: " . $value;
+            break;
+        
+        case '-':
+            for ($i=2; $i < count($operands); $i++) { 
+                $value -= $operands[$i];
+            }
+            $result = "Result: " . $value;
+            break;
+
+        case '*':
+            for ($i=2; $i < count($operands); $i++) { 
+                $value *= $operands[$i];
+            }
+            $result = "Result: " . $value;
+            break;
+
+        case '/':
+            for ($i=2; $i < count($operands); $i++) { 
+                if ($operands[$i] != 0) {
+                    $value /= $operands[$i];
+                    
+                } else {
+                    return "Cant divide with 0.";
+                }
+            }
+            $result = "Result: " . $value;
+            break;
+
+        default:
+            $result = "No answer.";
+            break;
+    }
+    return $result;
+}
