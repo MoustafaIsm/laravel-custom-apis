@@ -12,7 +12,8 @@ class FirstController extends Controller
         $upperCaseChar = "";
         $numbers = "";
         $resultString = "";
-        // separate the main string into substring
+
+        // separate the main string into substrings
         for ($i=0; $i < strlen($randomString); $i++) { 
             if (ctype_upper($randomString[$i])) {
                 $upperCaseChar = $upperCaseChar . $randomString[$i];
@@ -22,10 +23,16 @@ class FirstController extends Controller
                 $numbers = $numbers . $randomString[$i];
             }
         }
+
         // Sort the sub Strings
         $lowerCaseChar - sortSubString($lowerCaseChar);
         $upperCaseChar = sortSubString($upperCaseChar);
         $numbers = sortSubString($numbers);
+
+        // Remove duplicates from the substrings
+        $lowerCaseChar = count_chars($lowerCaseChar, 3);
+        $upperCaseChar = count_chars($upperCaseChar, 3);
+        $numbers = count_chars($numbers, 3);
 
     }
 
