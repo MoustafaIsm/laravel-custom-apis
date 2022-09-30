@@ -92,6 +92,18 @@ class FirstController extends Controller
         
     }
 
+    function transformHumanToRobot($string) {
+        preg_match_all('!\d+!', $string, $matches);
+        $resultString = $string;
+        foreach ($matches[0] as $item) {
+            $resultString = str_replace($item, "" . decbin($item), $resultString);
+        }
+        return response()->json([
+            "response"=> "success",
+            "result"=> $resultString
+        ]);
+    }
+
 }
 
 function sortSubStringIntoArray($subString) {
