@@ -10,6 +10,8 @@ Route::get("/second_api/{num}", [FirstController::class, 'getNumberPlacements'])
 
 Route::get("/third_api/{string}", [FirstController::class, 'transformHumanToRobot']);
 
+Route::post("/fourth_api", [FirstController::class, 'solveNotation']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
