@@ -64,11 +64,15 @@ class FirstController extends Controller
     }
 
     function getNumberPlacements($num) {
+        // Checks the input if its a number
         if (is_numeric($num)) {
+            // Gets the number of digits in the input
             $digitCount = countDigits($num);
+            // Calculates the mod value with 10 ^ digiCount
             $modValue = pow(10, $digitCount - 1);
             $resultArray = array();
             while ($modValue > 0) {
+                // To avoid $num % 0
                 if ($num < 10) {
                     $temp = $num;
                     array_push($resultArray, $temp);
@@ -81,21 +85,25 @@ class FirstController extends Controller
                 array_push($resultArray, $temp);
             }
             return response()->json([
-                "response"=> "success",
+                "response" => "success",
                 "result"=> $resultArray
             ]);
         } else {
             return response()->json([
-                "response"=> "failed"
+                "response" => "failed",
+                "result" => "Input must be a number."
             ]);
         }
         
     }
 
     function transformHumanToRobot() {
+        // Gets the string from the body of the request
         $string = request()->string;
+        // Regular expression that gets only the number part of the string and stores it on the matches array
         preg_match_all('!\d+!', $string, $matches);
         $resultString = $string;
+        // Replaces all numbers found by their binary value using decbin function
         foreach ($matches[0] as $item) {
             $resultString = str_replace($item, "" . decbin($item), $resultString);
         }
