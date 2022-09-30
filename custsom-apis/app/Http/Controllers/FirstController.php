@@ -25,7 +25,7 @@ class FirstController extends Controller
         }
 
         // Sort the sub Strings
-        $lowerCaseChar - sortSubString($lowerCaseChar);
+        $lowerCaseChar = sortSubString($lowerCaseChar);
         $upperCaseChar = sortSubString($upperCaseChar);
         $numbers = sortSubString($numbers);
 
@@ -34,12 +34,14 @@ class FirstController extends Controller
         $upperCaseChar = count_chars($upperCaseChar, 3);
         $numbers = count_chars($numbers, 3);
 
+        return "Lower: " . $lowerCaseChar . " Upper: " . $upperCaseChar . " Numbers: " .$numbers;
+
     }
 
-    function sortSubString($subString) {
-        $array = str_split($subString);
-        sort($array);
-        return implode($array);
-    }
+}
 
+function sortSubString($subString) {
+    $array = str_split($subString);
+    sort($array);
+    return implode($array);
 }
