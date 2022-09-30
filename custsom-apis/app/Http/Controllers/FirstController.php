@@ -63,6 +63,10 @@ class FirstController extends Controller
 
     }
 
+    function getNumberPlacements($num) {
+        $digitCount = countDigits($num);
+    }
+
 }
 
 function sortSubStringIntoArray($subString) {
@@ -70,3 +74,14 @@ function sortSubStringIntoArray($subString) {
     sort($array);
     return $array;
 }
+
+function countDigits($myNum){
+    $myNum = (int)$myNum;
+    $count = 0;
+  
+    while($myNum != 0){
+      $myNum = (int)($myNum / 10);
+      $count++;
+    }
+    return $count;
+  }
