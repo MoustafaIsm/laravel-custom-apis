@@ -104,7 +104,8 @@ class FirstController extends Controller
         ]);
     }
 
-    function solveNotation($prefixNotation) {
+    function solveNotation() {
+        $prefixNotation = request()->prefixNotation;
         $notationArray = explode(" ", $prefixNotation);
         $operator = $notationArray[0];
         $resultString = calculateResult($operator, $notationArray);
