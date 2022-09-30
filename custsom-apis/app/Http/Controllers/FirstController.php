@@ -92,7 +92,8 @@ class FirstController extends Controller
         
     }
 
-    function transformHumanToRobot($string) {
+    function transformHumanToRobot() {
+        $string = request()->string;
         preg_match_all('!\d+!', $string, $matches);
         $resultString = $string;
         foreach ($matches[0] as $item) {

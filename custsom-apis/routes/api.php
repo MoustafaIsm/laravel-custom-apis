@@ -8,7 +8,7 @@ Route::get("/first_api/{randomString}", [FirstController::class, 'sortString']);
 
 Route::get("/second_api/{num}", [FirstController::class, 'getNumberPlacements']);
 
-Route::get("/third_api/{string}", [FirstController::class, 'transformHumanToRobot']);
+Route::post("/third_api", [FirstController::class, 'transformHumanToRobot']);
 
 Route::post("/fourth_api", [FirstController::class, 'solveNotation']);
 
