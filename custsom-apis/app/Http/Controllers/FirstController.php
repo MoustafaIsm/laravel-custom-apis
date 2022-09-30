@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class FirstController extends Controller
+{
+    
+    function sortString($randomString) {
+        $lowerCaseChar = "";
+        $upperCaseChar = "";
+        $numbers = "";
+        $resultString = "";
+
+        // separate the main string into substrings
+        for ($i=0; $i < strlen($randomString); $i++) { 
+            if (ctype_upper($randomString[$i])) {
+                $upperCaseChar = $upperCaseChar . $randomString[$i];
+            } elseif (ctype_lower($randomString[$i])) {
+                $lowerCaseChar = $lowerCaseChar . $randomString[$i];
+            } else {
+                $numbers = $numbers . $randomString[$i];
+            }
+        }
+
+        // Remove duplicates from the substrings
+        $lowerCaseChar = count_chars($lowerCaseChar, 3);
+        $upperCaseChar = count_chars($upperCaseChar, 3);
+        $numbers = count_chars($numbers, 3);
+
+        // Sort the sub Strings and convert it to an array
+        $lowerCaseArray = sortSubStringIntoArray($lowerCaseChar);
+        $upperCaseArray = sortSubStringIntoArray($upperCaseChar);
+        $numbers = sortSubStringIntoArray($numbers);
+
+        // Intializing an associative array
+        $tempArray = array();
+
+        // Adding the normal arrays to the associative array
+        for ($j=0; $j < count($lowerCaseArray); $j++) { 
+            $tempArray[$lowerCaseArray[$j]] = ord($lowerCaseArray[$j]) - 33;
+        }
+        for ($k=0; $k < count($upperCaseArray); $k++) { 
+            $tempArray[$upperCaseArray[$k]] = ord($upperCaseArray[$k]);
+        }
+
+        // Sorting the values of the associative array (They are ascii values)
+        asort($tempArray);
+
+        // Take the index (character) of the associative array in the result string
+        foreach ($tempArray as $index => $value) {
+            $resultString = $resultString . $index;
+        }
+
+        // Adding the numbers at the end (they are already sorted)
+        $resultString = $resultString . implode($numbers);
+
+        return response()->json([
+            "response"=> "success",
+            "result"=> $resultString
+        ]);
+
+    }
+
+}
+
+function sortSubStringIntoArray($subString) {
+    $array = str_split($subString);
+    sort($array);
+    return $array;
+}
