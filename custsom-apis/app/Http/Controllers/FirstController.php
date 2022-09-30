@@ -63,6 +63,35 @@ class FirstController extends Controller
 
     }
 
+    function getNumberPlacements($num) {
+        if (is_numeric($num)) {
+            $digitCount = countDigits($num);
+            $modValue = pow(10, $digitCount - 1);
+            $resultArray = array();
+            while ($modValue > 0) {
+                if ($num < 10) {
+                    $temp = $num;
+                    array_push($resultArray, $temp);
+                    break;
+                } else {
+                    $temp = $num -($num % $modValue);
+                    $num = $num - $temp;
+                    $modValue = $modValue / 10;
+                }
+                array_push($resultArray, $temp);
+            }
+            return response()->json([
+                "response"=> "success",
+                "result"=> $resultArray
+            ]);
+        } else {
+            return response()->json([
+                "response"=> "failed"
+            ]);
+        }
+        
+    }
+
 }
 
 function sortSubStringIntoArray($subString) {
@@ -70,3 +99,14 @@ function sortSubStringIntoArray($subString) {
     sort($array);
     return $array;
 }
+
+function countDigits($myNum){
+    $myNum = (int)$myNum;
+    $count = 0;
+  
+    while($myNum != 0){
+      $myNum = (int)($myNum / 10);
+      $count++;
+    }
+    return $count;
+  }
