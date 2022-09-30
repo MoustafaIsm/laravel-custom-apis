@@ -24,24 +24,49 @@ class FirstController extends Controller
             }
         }
 
-        // Sort the sub Strings
-        $lowerCaseChar = sortSubString($lowerCaseChar);
-        $upperCaseChar = sortSubString($upperCaseChar);
-        $numbers = sortSubString($numbers);
-
         // Remove duplicates from the substrings
         $lowerCaseChar = count_chars($lowerCaseChar, 3);
         $upperCaseChar = count_chars($upperCaseChar, 3);
         $numbers = count_chars($numbers, 3);
 
-        return "Lower: " . $lowerCaseChar . " Upper: " . $upperCaseChar . " Numbers: " .$numbers;
+        // Sort the sub Strings and convert it to an array
+        $lowerCaseArray = sortSubStringIntoArray($lowerCaseChar);
+        $upperCaseArray = sortSubStringIntoArray($upperCaseChar);
+        $numbers = sortSubStringIntoArray($numbers);
+
+        // Intializing an associative array
+        $tempArray = array();
+
+        // Adding the normal arrays to the associative array
+        for ($j=0; $j < count($lowerCaseArray); $j++) { 
+            $tempArray[$lowerCaseArray[$j]] = ord($lowerCaseArray[$j]) - 33;
+        }
+        for ($k=0; $k < count($upperCaseArray); $k++) { 
+            $tempArray[$upperCaseArray[$k]] = ord($upperCaseArray[$k]);
+        }
+
+        // Sorting the values of the associative array (They are ascii values)
+        asort($tempArray);
+
+        // Take the index (character) of the associative array in the result string
+        foreach ($tempArray as $index => $value) {
+            $resultString = $resultString . $index;
+        }
+
+        // Adding the numbers at the end (they are already sorted)
+        $resultString = $resultString . implode($numbers);
+
+        return response()->json([
+            "response"=> "success",
+            "result"=> $resultString
+        ]);
 
     }
 
 }
 
-function sortSubString($subString) {
+function sortSubStringIntoArray($subString) {
     $array = str_split($subString);
     sort($array);
-    return implode($array);
+    return $array;
 }
